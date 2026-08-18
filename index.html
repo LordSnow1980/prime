@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
-<title>Control de Biométricos y Pinpads — PrimeMX v8</title>
+<title>Control de Biométricos y Pinpads — PrimeMX v8.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -317,7 +317,7 @@ td.wrapcell{white-space:normal;min-width:175px;max-width:290px;line-height:1.4}
   <aside class="rail">
     <div class="brand">
       <img class="logo" id="logoRail" alt="PrimeMX">
-      <div class="sub"><i class="dot"></i><span>Biométricos y pinpads · v8 profesional</span></div>
+      <div class="sub"><i class="dot"></i><span>Biométricos y pinpads · v8.1 profesional</span></div>
     </div>
     <nav class="nav" id="nav"></nav>
     <div class="railfoot">
@@ -1631,6 +1631,7 @@ function modalEditEnt(id){
    ============================================================ */
 function vPdv(){
   const q=S.fd.q.trim().toUpperCase(), rg=S.fd.rg;
+  const admin=!!(APP_PROFILE&&APP_PROFILE.role==='ADMIN');
   const cnt={}; DB.rec.forEach(r=>{ if(r.e==='ASIGNADO'&&r.c){ cnt[r.c]=cnt[r.c]||{b:0,p:0}; cnt[r.c][r.t==='BIOMETRICO'?'b':'p']++; } });
   const rows=STORES.filter(s=>{
     if(rg && s.rg!==rg) return false;
@@ -1638,7 +1639,8 @@ function vPdv(){
     return true;
   });
   const regs=[...new Set(STORES.map(s=>s.rg))].sort();
-  $('#vActions').innerHTML='<button class="btn" id="dExp">Exportar directorio (CSV)</button>';
+  $('#vActions').innerHTML=(admin?'<button class="btn pri" id="dAdd">Agregar PDV</button>':'')+
+    '<button class="btn" id="dExp">Exportar directorio (CSV)</button>';
   $('#view').innerHTML=
   '<div class="filters"><div class="search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'+
     '<input class="inp" id="dq" placeholder="Buscar tienda, clave PDV, host, gerente…" value="'+esc(S.fd.q)+'"></div>'+
@@ -1647,19 +1649,95 @@ function vPdv(){
   '<div class="tablewrap"><table><thead><tr><th>Punto de venta</th><th>Clave PDV</th><th>Host</th><th>CC</th><th>Región</th><th>Gerente de tienda</th><th>Biométricos</th><th>Pinpads</th><th></th></tr></thead><tbody>'+
     rows.slice(0,400).map(s=>{
       const c=cnt[s.cv]||{b:0,p:0};
-      return '<tr><td class="wrapcell">'+esc(s.nm)+'</td><td class="serie">'+esc(s.cv)+'</td><td class="serie">'+esc(s.hn)+'</td>'+
+      return '<tr><td class="wrapcell">'+esc(s.nm)+(s.tmp?' <span class="b pend">Temporal</span>':'')+'</td><td class="serie">'+esc(s.cv)+'</td><td class="serie">'+esc(s.hn||'—')+'</td>'+
       '<td class="serie">'+esc(s.cc)+'</td><td>'+esc(s.rg)+'</td><td class="wrapcell hint">'+esc(s.gt||'—')+'</td>'+
       '<td>'+(c.b?'<b>'+c.b+'</b>':'<span class="hint">0</span>')+'</td><td>'+(c.p?'<b>'+c.p+'</b>':'<span class="hint">0</span>')+'</td>'+
-      '<td><button class="btn sm" data-pdv="'+esc(s.cv)+'">Ver equipo</button></td></tr>';
+      '<td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn sm" data-pdv="'+esc(s.cv)+'">Ver equipo</button>'+
+      (admin?'<button class="btn sm" data-editpdv="'+esc(s.cv)+'">Editar</button><button class="btn sm danger" data-delpdv="'+esc(s.cv)+'">Eliminar</button>':'')+
+      '</div></td></tr>';
     }).join('')+
   '</tbody></table></div>'+(rows.length>400?'<div class="pager">Mostrando las primeras 400 tiendas. Afina la búsqueda para ver el resto.</div>':'');
   const d=$('#dq'); d.oninput=()=>{S.fd.q=d.value;const p=d.selectionStart;vPdv();const n=$('#dq');n.focus();n.setSelectionRange(p,p)};
   $('#drg').onchange=e=>{S.fd.rg=e.target.value;vPdv()};
+  if(admin) $('#dAdd').onclick=()=>modalPdvForm();
   $('#dExp').onclick=()=>{
     const cols=['Punto de venta','Clave PDV','Host','Centro de costo','Región','Gerente de tienda','Gerente regional','Biométricos asignados','Pinpads asignadas','Dirección'];
     csv(cols, rows.map(s=>{const c=cnt[s.cv]||{b:0,p:0};return [s.nm,s.cv,s.hn,s.cc,s.rg,s.gt,s.gr,c.b,c.p,s.dr]}),'directorio_pdv');
   };
   document.querySelectorAll('[data-pdv]').forEach(b=>b.onclick=()=>modalPdv(b.dataset.pdv));
+  document.querySelectorAll('[data-editpdv]').forEach(b=>b.onclick=()=>modalPdvForm(b.dataset.editpdv));
+  document.querySelectorAll('[data-delpdv]').forEach(b=>b.onclick=()=>eliminarPdv(b.dataset.delpdv));
+}
+function nextTempPdvCode(){
+  let max=0;
+  STORES.forEach(s=>{ const m=String(s.cv||'').match(/^TEMP-(\d+)$/i); if(m) max=Math.max(max,+m[1]); });
+  return 'TEMP-'+String(max+1).padStart(4,'0');
+}
+function modalPdvForm(cv){
+  if(!APP_PROFILE || APP_PROFILE.role!=='ADMIN'){ toast('Solo un administrador puede modificar el catálogo de PDV.',true); return; }
+  const actual=cv?SBYCV[cv]:null;
+  if(cv&&!actual){ toast('El PDV ya no existe en el catálogo.',true); return; }
+  const v=actual||{nm:'',cv:'',hn:'',cc:'',rg:'',gt:'',gr:'',dr:'',tmp:true};
+  openModal('<div class="mhead"><div><h2>'+(actual?'Editar PDV':'Agregar PDV manualmente')+'</h2>'+
+    '<p>Usa un registro temporal cuando todavía no tengas el nombre o la clave oficiales.</p></div><button class="x">&times;</button></div>'+
+    '<div class="mbody">'+
+      '<div class="field"><label style="display:flex;gap:9px;align-items:flex-start;cursor:pointer"><input type="checkbox" class="ck" id="pTemporal" '+(v.tmp?'checked':'')+'>'+
+        '<span><b>PDV temporal</b><br><span class="hint">Podrás cambiar después el nombre y la clave sin perder sus equipos asociados.</span></span></label></div>'+
+      '<div class="row"><div class="field"><label class="f">Nombre visible</label><input class="inp" id="pNm" value="'+esc(v.nm)+'" placeholder="Ej. PDV temporal Toluca centro"></div>'+
+        '<div class="field"><label class="f">Clave PDV</label><input class="inp" id="pCv" value="'+esc(v.cv)+'" placeholder="Opcional si es temporal"></div></div>'+
+      '<div class="row"><div class="field"><label class="f">Host</label><input class="inp" id="pHn" value="'+esc(v.hn)+'" placeholder="Opcional"></div>'+
+        '<div class="field"><label class="f">Centro de costo</label><input class="inp" id="pCc" value="'+esc(v.cc)+'" placeholder="Opcional"></div>'+
+        '<div class="field"><label class="f">Región</label><input class="inp" id="pRg" value="'+esc(v.rg)+'" placeholder="Opcional"></div></div>'+
+      '<div class="row"><div class="field"><label class="f">Gerente de tienda</label><input class="inp" id="pGt" value="'+esc(v.gt)+'" placeholder="Opcional"></div>'+
+        '<div class="field"><label class="f">Gerente regional</label><input class="inp" id="pGr" value="'+esc(v.gr)+'" placeholder="Opcional"></div></div>'+
+      '<div class="field"><label class="f">Dirección</label><input class="inp" id="pDr" value="'+esc(v.dr)+'" placeholder="Opcional"></div>'+
+      '<div class="warnbox" id="pTempInfo"></div>'+
+    '</div><div class="mfoot"><span class="hint">Nombre obligatorio; la clave temporal puede generarse automáticamente.</span><span class="sp">'+
+      '<button class="btn" onclick="closeModal()">Cancelar</button><button class="btn pri" id="pGuardar">'+(actual?'Guardar cambios':'Agregar PDV')+'</button></span></div>');
+  const pintarInfo=()=>{
+    const temporal=$('#pTemporal').checked;
+    $('#pTempInfo').innerHTML=temporal
+      ? '<b>Registro provisional.</b> Si dejas vacía la clave, se generará una como <span class="serie">'+nextTempPdvCode()+'</span>.'
+      : '<b>Registro definitivo.</b> Captura la clave oficial del PDV antes de guardar.';
+    $('#pCv').placeholder=temporal?'Se genera automáticamente si se deja vacía':'Clave oficial obligatoria';
+  };
+  $('#pTemporal').onchange=pintarInfo; pintarInfo();
+  $('#pGuardar').onclick=()=>{
+    const tmp=$('#pTemporal').checked;
+    const nm=$('#pNm').value.trim();
+    let nuevaCv=$('#pCv').value.trim().toUpperCase();
+    if(!nm){ toast('Captura un nombre visible, aunque sea temporal.',true); $('#pNm').focus(); return; }
+    if(!nuevaCv&&tmp) nuevaCv=nextTempPdvCode();
+    if(!nuevaCv){ toast('Captura la clave oficial o marca el PDV como temporal.',true); $('#pCv').focus(); return; }
+    const duplicado=STORES.find(s=>s!==actual&&String(s.cv||'').toUpperCase()===nuevaCv);
+    if(duplicado){ toast('La clave '+nuevaCv+' ya pertenece a '+duplicado.nm+'.',true); $('#pCv').focus(); return; }
+    const oldCv=actual?actual.cv:'';
+    const oldNm=actual?actual.nm:'';
+    const dat={nm:nm,cv:nuevaCv,hn:$('#pHn').value.trim(),cc:$('#pCc').value.trim(),rg:$('#pRg').value.trim(),
+      gt:$('#pGt').value.trim(),gr:$('#pGr').value.trim(),dr:$('#pDr').value.trim(),tmp:tmp};
+    if(actual){
+      Object.assign(actual,dat);
+      [DB.rec,DB.ent,DB.cmp||[]].forEach(arr=>arr.forEach(r=>{ if(r.c===oldCv){ r.c=nuevaCv; r.p=nm; } }));
+      logIt('PDV actualizado: '+oldNm+' ['+oldCv+'] → '+nm+' ['+nuevaCv+']'+(tmp?' · temporal':' · definitivo')+'.','EDICION');
+    }else{
+      DB.stores=DB.stores||[]; DB.stores.unshift(dat);
+      logIt('PDV agregado manualmente: '+nm+' ['+nuevaCv+']'+(tmp?' · temporal':'')+'.','ALTA');
+    }
+    setStores(DB.stores); save(); closeModal(); render();
+    toast(actual?'PDV actualizado y relaciones conservadas.':'PDV agregado al catálogo.');
+  };
+}
+function eliminarPdv(cv){
+  if(!APP_PROFILE || APP_PROFILE.role!=='ADMIN'){ toast('Solo un administrador puede eliminar PDV.',true); return; }
+  const s=SBYCV[cv]; if(!s) return;
+  const nr=DB.rec.filter(r=>r.c===cv).length, ne=DB.ent.filter(r=>r.c===cv).length, nc=(DB.cmp||[]).filter(r=>r.c===cv).length;
+  if(nr||ne||nc){
+    toast('No se puede eliminar: tiene '+nr+' equipo(s), '+ne+' salida(s) y '+nc+' comprobante(s) relacionados. Edítalo en lugar de borrarlo.',true);
+    return;
+  }
+  if(!confirm('¿Eliminar del catálogo el PDV "'+s.nm+'" ['+s.cv+']?\n\nEsta acción no se puede deshacer.')) return;
+  DB.stores=DB.stores.filter(x=>x!==s); setStores(DB.stores);
+  logIt('PDV eliminado del catálogo: '+s.nm+' ['+s.cv+'].','BAJA'); save(); render(); toast('PDV eliminado del catálogo.');
 }
 function modalPdv(cv){
   const s=SBYCV[cv]; if(!s) return;
@@ -1678,7 +1756,10 @@ function modalPdv(cv){
     (sal.length? '<table class="itable"><thead><tr><th>Serie</th><th>Tipo</th><th>Estatus</th><th>Fecha</th><th>Ticket</th></tr></thead><tbody>'+
       sal.map(r=>'<tr><td class="sn">'+esc(r.s)+'</td><td>'+esc(r.t)+'</td><td>'+(r.e==='ENTREGADO'?'Entregado':'Pendiente')+'</td><td>'+fdate(r.f)+'</td><td class="sn">'+esc(r.k||'—')+'</td></tr>').join('')+'</tbody></table>'
       : '<p class="hint">Sin salidas registradas.</p>')+
-    '</div><div class="mfoot"><span class="sp"><button class="btn" onclick="closeModal()">Cerrar</button></span></div>','wide');
+    '</div><div class="mfoot"><span class="sp">'+
+      (APP_PROFILE&&APP_PROFILE.role==='ADMIN'?'<button class="btn" id="pEditDetail">Editar PDV</button>':'')+
+      '<button class="btn" onclick="closeModal()">Cerrar</button></span></div>','wide');
+  const pe=$('#pEditDetail'); if(pe) pe.onclick=()=>{ closeModal(); modalPdvForm(cv); };
 }
 
 /* ============================================================
