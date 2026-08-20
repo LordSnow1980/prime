@@ -23,7 +23,7 @@ function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200)}
 function initials(n){return String(n||'IT').split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}
-function normRegion(v){return String(v||'').replace(/\s+1$/,' I').replace(/\s+2$/,' II')}
+function normRegion(v){return String(v||'').trim().toUpperCase()}
 function newMachine(id){return {id:id||crypto.randomUUID(),hostname:'',type:'Desktop',anydesk:'',states:{},notes:{},evidence:null}}
 function defaultOwner(){const n=profile?.nombre||'';return OWNERS.includes(n)?n:'Luis Alzaga Hernández'}
 function newAudit(p){return {id:crypto.randomUUID(),pdvId:p.pdvId||null,tempPdvId:p.tempPdvId||null,pdvName:p.name,pdvKey:p.key,region:p.region||'',owner:defaultOwner(),date:today(),expected:'',observation:'',scripts:{},machines:[newMachine()],status:'progress',progress:0,compliance:0,findingsOpen:0,findingsFixed:0,closedAt:null,createdAt:null,updatedAt:null,isNew:true}}
