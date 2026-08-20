@@ -2,45 +2,71 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
-<title>PRIME MX · Recolección HUB</title><link rel="stylesheet" href="./app.css?v=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>PRIME MX · Recolección HUB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./app.css?v=2">
 </head>
 <body>
-<div id="loading" class="loading">Validando sesión PRIME MX y cargando HUB…</div>
-<div id="app" class="hidden">
-<header class="top"><div class="brand">PRIME<b>MX</b></div><div class="sub">Recolección HUB</div><div class="right"><div class="who"><b id="whoName"></b><span id="whoRole"></span></div><a class="btn sm" href="../">Portal</a></div></header>
-<main class="shell">
-<div class="hero"><div><h1>Recolección de equipos</h1><p>Solicitudes, evidencias y cartas de entrega centralizadas en PRIME MX.</p></div><div class="pill">● Sesión protegida</div></div>
-<nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="request">Nueva solicitud</button><button class="tab" data-view="history">Historial</button><button class="tab" data-view="hubs">Directorio HUBs</button></nav>
-
-<section id="view-dashboard" class="view active">
-<div class="grid4"><div class="card kpi"><div class="l">Solicitudes</div><div id="kReq" class="n">0</div></div><div class="card kpi"><div class="l">Equipos</div><div id="kEq" class="n">0</div></div><div class="card kpi"><div class="l">Tiendas activas</div><div id="kStore" class="n">0</div></div><div class="card kpi"><div class="l">HUBs activos</div><div id="kHub" class="n">0</div></div></div>
-<div class="split"><div class="card"><h2 class="section-title">Actividad reciente</h2><div id="recent" class="feed"></div></div><div class="card"><h2 class="section-title">Operación</h2><p style="font-size:12px;color:var(--muted);line-height:1.6">Las fotografías se almacenan en un bucket privado. Cada solicitud registra tienda, HUB, equipos, usuario y persona que entrega.</p><button id="newReq" class="btn pri" style="margin-top:14px">Nueva solicitud</button></div></div>
-</section>
-
-<section id="view-request" class="view">
-<div class="wizard">
-<aside class="steps"><div class="step active">1 · Tienda</div><div class="step">2 · HUB</div><div class="step">3 · Equipos</div><div class="step">4 · Confirmar</div></aside>
-<div class="card">
-<div class="stage active"><h2 class="section-title">Selecciona la tienda</h2><div class="filters"><input id="storeSearch" class="inp" placeholder="Buscar por tienda o clave PDV"><span id="storeCount" class="btn sm" style="cursor:default"></span></div><div id="storeList" class="pick-grid"></div></div>
-<div class="stage"><h2 class="section-title">Selecciona el HUB</h2><div class="filters"><input id="hubSearch" class="inp" placeholder="Buscar HUB, ciudad, estado o responsable"><select id="hubRegion"><option value="">Todas las regiones</option></select></div><div id="hubList" class="pick-grid"></div></div>
-<div class="stage"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h2 class="section-title">Equipos a entregar</h2><button id="addEq" class="btn sm">+ Agregar equipo</button></div><div id="eqList"></div></div>
-<div class="stage"><h2 class="section-title">Revisa y confirma</h2><div id="confirm"></div></div>
-<div class="navrow"><button id="backStep" class="btn">Atrás</button><button id="nextStep" class="btn pri">Continuar</button></div>
-</div></div>
-</section>
-
-<section id="view-history" class="view">
-<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 class="section-title" style="margin:0">Historial central</h2><span id="histCount" style="font-size:11px;color:var(--muted)"></span></div><div style="display:flex;gap:8px"><input id="histSearch" class="inp" style="width:280px" placeholder="Buscar folio, PDV, HUB…"><button id="exportCsv" class="btn sm">Exportar CSV</button></div></div><div id="historyList" style="margin-top:14px"></div></div>
-</section>
-
-<section id="view-hubs" class="view">
-<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 class="section-title" style="margin:0">Directorio HUBs</h2><span id="hubDirCount" style="font-size:11px;color:var(--muted)"></span></div><div style="display:flex;gap:8px"><input id="dirSearch" class="inp" style="width:300px" placeholder="Buscar HUB…"><button id="addHubBtn" class="btn pri sm">Agregar HUB</button></div></div><div id="hubGrid" class="hub-grid" style="margin-top:14px"></div></div>
-</section>
-</main>
+<div id="loading" class="loading"><div class="loading-mark">PRIME<span>MX</span></div><p>Validando sesión y cargando Recolección HUB…</p></div>
+<div id="app" class="app hidden">
+  <aside class="rail">
+    <div class="rail-brand"><div class="logo">PRIME<span>MX</span></div><div class="product"><i></i><span>Recolección de equipos</span></div></div>
+    <nav class="side-nav" aria-label="Navegación del módulo">
+      <div class="nav-label">OPERACIÓN</div>
+      <button class="tab active" data-view="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+      <button class="tab" data-view="request"><span class="nav-icon">＋</span><span>Nueva solicitud</span></button>
+      <button class="tab" data-view="history"><span class="nav-icon">≡</span><span>Historial</span><span id="navReqCount" class="nav-tag">0</span></button>
+      <div class="nav-label">CATÁLOGOS</div>
+      <button class="tab" data-view="hubs"><span class="nav-icon">⌖</span><span>Directorio HUBs</span><span id="navHubCount" class="nav-tag">0</span></button>
+    </nav>
+    <div class="rail-foot"><a class="rail-link" href="../">Cambiar módulo</a><div><i></i> Plataforma IT conectada</div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">PRIME MX · PLATAFORMA IT</p><h1 id="viewTitle">Dashboard</h1><p id="viewSub">Resumen operativo de recolección de equipos obsoletos.</p></div>
+      <div class="top-actions">
+        <a class="btn sm" href="../">Inicio</a><a class="btn sm" href="../">Cambiar módulo</a>
+        <div class="userbox"><div class="who"><b id="whoName"></b><span id="whoRole"></span></div><button id="logoutBtn" class="btn sm">Cerrar sesión</button></div>
+      </div>
+    </header>
+    <div class="shell">
+      <section id="view-dashboard" class="view active">
+        <div class="welcome"><div><span class="status-badge">● Operación protegida</span><h2>Recolección de equipos</h2><p>Control central de solicitudes, evidencias fotográficas y cartas de entrega.</p></div><button id="newReq" class="btn pri">＋ Nueva solicitud</button></div>
+        <div class="grid4">
+          <div class="card kpi kpi-a"><div class="l">Solicitudes</div><div id="kReq" class="n">0</div><p>Folios registrados</p></div>
+          <div class="card kpi kpi-b"><div class="l">Equipos</div><div id="kEq" class="n">0</div><p>Activos por recolectar</p></div>
+          <div class="card kpi kpi-c"><div class="l">Tiendas activas</div><div id="kStore" class="n">0</div><p>Directorio PDV</p></div>
+          <div class="card kpi kpi-d"><div class="l">HUBs activos</div><div id="kHub" class="n">0</div><p>Destinos disponibles</p></div>
+        </div>
+        <div class="split">
+          <div class="card"><div class="card-head"><div><h2 class="section-title">Actividad reciente</h2><p>Últimos movimientos capturados</p></div></div><div id="recent" class="feed"></div></div>
+          <div class="card"><div class="card-head"><div><h2 class="section-title">Flujo de entrega</h2><p>Proceso controlado de principio a fin</p></div></div><ol class="flow-list"><li><b>Selecciona el PDV</b><span>Busca por plaza o Clave PDV.</span></li><li><b>Define el HUB destino</b><span>Filtra por región y responsable.</span></li><li><b>Documenta los equipos</b><span>Serie, condición y evidencia obligatoria.</span></li><li><b>Genera la carta</b><span>Folio e impresión listos al confirmar.</span></li></ol></div>
+        </div>
+      </section>
+      <section id="view-request" class="view">
+        <div class="wizard">
+          <aside class="steps"><div class="step active"><span>1</span><div><b>Tienda</b><small>Plaza y Clave PDV</small></div></div><div class="step"><span>2</span><div><b>HUB</b><small>Destino de entrega</small></div></div><div class="step"><span>3</span><div><b>Equipos</b><small>Series y evidencias</small></div></div><div class="step"><span>4</span><div><b>Confirmar</b><small>Revisión y registro</small></div></div></aside>
+          <div class="card wizard-card">
+            <div class="stage active"><div class="card-head"><div><h2 class="section-title">Selecciona la tienda</h2><p>Busca por plaza, nombre o Clave PDV.</p></div><span id="storeCount" class="count-badge"></span></div><div class="filters"><input id="storeSearch" class="inp" placeholder="Buscar tienda o Clave PDV"></div><div id="storeList" class="pick-grid"></div></div>
+            <div class="stage"><div class="card-head"><div><h2 class="section-title">Selecciona el HUB</h2><p>Elige el destino correcto para la recolección.</p></div></div><div class="filters"><input id="hubSearch" class="inp" placeholder="Buscar HUB, ciudad, estado o responsable"><select id="hubRegion" class="inp"><option value="">Todas las regiones</option></select></div><div id="hubList" class="pick-grid"></div></div>
+            <div class="stage"><div class="card-head"><div><h2 class="section-title">Equipos a entregar</h2><p>La serie y la evidencia son obligatorias.</p></div><button id="addEq" class="btn sm">＋ Agregar equipo</button></div><div id="eqList"></div></div>
+            <div class="stage"><div class="card-head"><div><h2 class="section-title">Revisa y confirma</h2><p>Verifica la información antes de generar el folio.</p></div></div><div id="confirm"></div></div>
+            <div class="navrow"><button id="backStep" class="btn">Atrás</button><button id="nextStep" class="btn pri">Continuar</button></div>
+          </div>
+        </div>
+      </section>
+      <section id="view-history" class="view">
+        <div class="card"><div class="card-head responsive"><div><h2 class="section-title">Historial central</h2><p id="histCount"></p></div><div class="toolbar"><input id="histSearch" class="inp" placeholder="Buscar folio, PDV, HUB…"><button id="exportCsv" class="btn sm">Exportar CSV</button></div></div><div id="historyList"></div></div>
+      </section>
+      <section id="view-hubs" class="view">
+        <div class="card"><div class="card-head responsive"><div><h2 class="section-title">Directorio HUBs</h2><p id="hubDirCount"></p></div><div class="toolbar"><input id="dirSearch" class="inp" placeholder="Buscar HUB, región o responsable…"><button id="addHubBtn" class="btn pri sm">＋ Agregar HUB</button></div></div><div id="hubGrid" class="hub-grid"></div></div>
+      </section>
+    </div>
+  </main>
 </div>
-<div id="photoModal" class="modal"><div class="modalbox"><img id="fullPhoto" alt="Evidencia"><div class="rowend"><button class="btn" onclick="$('#photoModal').classList.remove('show')">Cerrar</button></div></div></div>
+<div id="photoModal" class="modal"><div class="modalbox"><div class="modalhead"><div><b>Evidencia fotográfica</b><span>Vista protegida</span></div><button class="btn sm" onclick="$('#photoModal').classList.remove('show')">Cerrar</button></div><img id="fullPhoto" alt="Evidencia fotográfica del equipo"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
-<script src="./app-core.js?v=1"></script><script src="./app-ui.js?v=1"></script>
-<script>const __rw=renderWizard;renderWizard=function(){const b=document.getElementById('saveReq');if(b)b.id='nextStep';return __rw()};</script>
+<script src="./app-core.js?v=2"></script><script src="./app-ui.js?v=2"></script>
 </body></html>
