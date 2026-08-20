@@ -1,79 +1,26 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="referrer" content="no-referrer">
-<meta name="robots" content="noindex,nofollow,noarchive">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow,noarchive">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>PRIME MX · Portal IT</title>
 <style>
-:root{--bg:#0b0e14;--panel:#121722;--panel2:#171d2a;--line:#273043;--txt:#edf1f7;--muted:#8e9aab;--accent:#f5a623;--ok:#30c48d;--danger:#ef5b67;--blue:#5ca8ff;--r:16px}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt)}body{min-height:100vh;background:radial-gradient(circle at 12% 8%,rgba(245,166,35,.10),transparent 27%),radial-gradient(circle at 88% 0,rgba(92,168,255,.08),transparent 24%),var(--bg)}
-button,input{font:inherit}.hidden{display:none!important}.gate{min-height:100vh;display:grid;place-items:center;padding:28px}.login{width:min(430px,100%);background:rgba(18,23,34,.97);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 28px 80px rgba(0,0,0,.45)}.brand{font-weight:800;font-size:30px;letter-spacing:-.04em}.brand span{color:var(--accent)}.eyebrow{font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:6px}.login h1{font-size:22px;margin:25px 0 6px}.login p{margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.55}.field{margin:12px 0}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.inp{width:100%;background:#0d111a;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;outline:none}.inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(245,166,35,.12)}.actions{display:flex;gap:9px;margin-top:16px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--txt);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:600}.btn:hover{border-color:#3b465d}.btn.primary{background:var(--accent);color:#19130a;border-color:var(--accent);flex:1}.msg{min-height:20px;margin-top:13px;font-size:12px;color:var(--muted)}.msg.err{color:var(--danger)}
-.shell{min-height:100vh}.top{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 30px;background:rgba(11,14,20,.88);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10}.top .brand{font-size:23px}.top .sub{color:var(--muted);font-size:12px;margin-left:14px;padding-left:14px;border-left:1px solid var(--line)}.user{margin-left:auto;display:flex;gap:12px;align-items:center}.who{text-align:right;font-size:12px}.who b{display:block}.who span{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
-.wrap{max-width:1250px;margin:0 auto;padding:36px 28px 70px}.hero{display:flex;gap:20px;align-items:end;justify-content:space-between;margin-bottom:28px}.hero h1{font-size:32px;letter-spacing:-.035em;margin:0 0 6px}.hero p{margin:0;color:var(--muted);max-width:680px;line-height:1.55}.status{font-size:11px;color:var(--ok);border:1px solid rgba(48,196,141,.35);background:rgba(48,196,141,.08);padding:7px 10px;border-radius:999px;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:19px;min-height:185px;display:flex;flex-direction:column;transition:.15s}.card:hover{transform:translateY(-2px);border-color:#3c485f;box-shadow:0 16px 36px rgba(0,0,0,.22)}.icon{width:42px;height:42px;border-radius:12px;background:rgba(245,166,35,.11);border:1px solid rgba(245,166,35,.22);display:grid;place-items:center;color:var(--accent);font-weight:800;font-size:13px}.card h2{font-size:17px;margin:16px 0 5px}.card p{color:var(--muted);font-size:12.5px;line-height:1.5;margin:0 0 18px}.card .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}.tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.open{font-size:12px;color:var(--accent);font-weight:700;text-decoration:none}.disabled{opacity:.55}.disabled:hover{transform:none}.footnote{margin-top:26px;color:#667285;font-size:11px;line-height:1.55;border-top:1px solid var(--line);padding-top:17px}
-@media(max-width:650px){.top{padding:0 16px}.top .sub{display:none}.wrap{padding:26px 16px 55px}.hero{align-items:flex-start;flex-direction:column}.hero h1{font-size:27px}.who{display:none}.grid{grid-template-columns:1fr}}
-</style>
-</head>
+:root{--bg:#0b0e14;--panel:#121722;--panel2:#171d2a;--line:#273043;--txt:#edf1f7;--muted:#8e9aab;--accent:#f5a623;--ok:#30c48d;--danger:#ef5b67;--r:16px}*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt)}body{min-height:100vh;background:radial-gradient(circle at 12% 8%,rgba(245,166,35,.10),transparent 27%),var(--bg)}button,input{font:inherit}.hidden{display:none!important}.gate{min-height:100vh;display:grid;place-items:center;padding:28px}.login{width:min(430px,100%);background:rgba(18,23,34,.98);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 28px 80px rgba(0,0,0,.45)}.brand{font-weight:800;font-size:30px;letter-spacing:-.04em}.brand span{color:var(--accent)}.eyebrow{font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:6px}.login h1{font-size:22px;margin:25px 0 6px}.login p{margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.55}.field{margin:12px 0}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.inp{width:100%;background:#0d111a;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;outline:none}.inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(245,166,35,.12)}.actions{display:flex;gap:9px;margin-top:16px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--txt);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:600}.btn.primary{background:var(--accent);color:#19130a;border-color:var(--accent);flex:1}.msg{min-height:20px;margin-top:13px;font-size:12px;color:var(--muted)}.msg.err{color:var(--danger)}.top{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 30px;background:rgba(11,14,20,.9);position:sticky;top:0}.top .brand{font-size:23px}.top .sub{color:var(--muted);font-size:12px;margin-left:14px;padding-left:14px;border-left:1px solid var(--line)}.user{margin-left:auto;display:flex;gap:12px;align-items:center}.who{text-align:right;font-size:12px}.who b{display:block}.who span{color:var(--muted);font-size:10px;text-transform:uppercase}.wrap{max-width:1250px;margin:0 auto;padding:36px 28px 70px}.hero{display:flex;gap:20px;align-items:end;justify-content:space-between;margin-bottom:28px}.hero h1{font-size:32px;letter-spacing:-.035em;margin:0 0 6px}.hero p{margin:0;color:var(--muted);max-width:680px}.status{font-size:11px;color:var(--ok);border:1px solid rgba(48,196,141,.35);background:rgba(48,196,141,.08);padding:7px 10px;border-radius:999px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:19px;min-height:185px;display:flex;flex-direction:column}.card.active:hover{transform:translateY(-2px);border-color:#3c485f}.icon{width:42px;height:42px;border-radius:12px;background:rgba(245,166,35,.11);border:1px solid rgba(245,166,35,.22);display:grid;place-items:center;color:var(--accent);font-weight:800}.card h2{font-size:17px;margin:16px 0 5px}.card p{color:var(--muted);font-size:12.5px;line-height:1.5;margin:0 0 18px}.foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}.tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.open{font-size:12px;color:var(--accent);font-weight:700;text-decoration:none}.disabled{opacity:.55}.footnote{margin-top:26px;color:#667285;font-size:11px;border-top:1px solid var(--line);padding-top:17px}@media(max-width:650px){.top{padding:0 16px}.top .sub,.who{display:none}.wrap{padding:26px 16px 55px}.hero{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}}
+</style></head>
 <body>
-<section id="gate" class="gate">
-  <form id="loginForm" class="login">
-    <div class="brand">PRIME<span>MX</span></div>
-    <div class="eyebrow">Portal central · Tecnología</div>
-    <h1>Acceso PRIME MX</h1>
-    <p>Una sola sesión para los sistemas autorizados. El acceso a cada módulo se valida también en la base de datos.</p>
-    <div class="field"><label for="email">Correo autorizado</label><input id="email" class="inp" type="email" autocomplete="username" required></div>
-    <div class="field"><label for="pass">Contraseña</label><input id="pass" class="inp" type="password" minlength="8" autocomplete="current-password" required></div>
-    <div class="actions"><button id="loginBtn" class="btn primary" type="submit">Entrar</button><button id="signupBtn" class="btn" type="button">Crear acceso</button></div>
-    <div id="msg" class="msg">Solo correos previamente autorizados.</div>
-  </form>
-</section>
-<section id="app" class="shell hidden">
-  <header class="top"><div class="brand">PRIME<span>MX</span></div><div class="sub">Portal IT</div><div class="user"><div class="who"><b id="userName"></b><span id="userRole"></span></div><button id="logout" class="btn">Salir</button></div></header>
-  <main class="wrap">
-    <div class="hero"><div><h1>Centro de operaciones IT</h1><p>Selecciona un módulo. Solo aparecen las aplicaciones habilitadas para tu cuenta.</p></div><div class="status">● Sesión protegida</div></div>
-    <div id="modules" class="grid"></div>
-    <div class="footnote">PRIME MX · Portal oficial con acceso centralizado mediante Supabase Auth, perfiles y permisos por módulo. Los sistemas se irán integrando a este mismo dominio de forma gradual y sin perder información.</div>
-  </main>
-</section>
+<section id="gate" class="gate"><form id="loginForm" class="login"><div class="brand">PRIME<span>MX</span></div><div class="eyebrow">Portal central · Tecnología</div><h1>Acceso PRIME MX</h1><p>Una sola sesión para todos los sistemas autorizados.</p><div class="field"><label>Correo autorizado</label><input id="email" class="inp" type="email" autocomplete="username" required></div><div class="field"><label>Contraseña</label><input id="pass" class="inp" type="password" minlength="8" autocomplete="current-password" required></div><div class="actions"><button id="loginBtn" class="btn primary" type="submit">Entrar</button><button id="signupBtn" class="btn" type="button">Crear acceso</button></div><div id="msg" class="msg">Solo correos previamente autorizados.</div></form></section>
+<section id="app" class="hidden"><header class="top"><div class="brand">PRIME<span>MX</span></div><div class="sub">Portal IT</div><div class="user"><div class="who"><b id="userName"></b><span id="userRole"></span></div><button id="logout" class="btn">Salir</button></div></header><main class="wrap"><div class="hero"><div><h1>Centro de operaciones IT</h1><p>Selecciona un módulo. Solo aparecen las aplicaciones habilitadas para tu cuenta.</p></div><div class="status">● Sesión protegida</div></div><div id="modules" class="grid"></div><div class="footnote">PRIME MX · Auth central, roles, permisos por módulo y RLS. HUB se encuentra temporalmente en modo migración segura.</div></main></section>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 <script>
-const SUPABASE_URL='https://ydeusddtqsstqehqhkgi.supabase.co';
-const SUPABASE_KEY='sb_publishable_3g_w_Iw4bLHE76c073jlQw_YFXMlljK';
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-const ROUTES={BIOMETRICOS:'./biometricos/'};
-const INFO={
-  BIOMETRICOS:['BIO','Inventario, asignaciones, entregas y comprobantes de biométricos y pinpads.'],
-  HUB:['HUB','Recolección de equipos obsoletos, evidencias y cartas de entrega.'],
-  ADQUISICION:['ADQ','Control de adquisiciones y activos.'],
-  AUDITORIA_IT:['AUD','Auditorías IT, universo de PDV y evidencias.'],
-  WHATSAPP_FALLAS:['NOC','Monitoreo de fallas, folios y operación por WhatsApp.']
-};
-const $=s=>document.querySelector(s);
-function message(t,e){$('#msg').textContent=t||'';$('#msg').className='msg'+(e?' err':'');}
-function authText(e){const m=String(e&&e.message||e||'');if(/invalid login credentials/i.test(m))return'Correo o contraseña incorrectos.';if(/email not confirmed/i.test(m))return'Confirma primero tu correo.';if(/already registered/i.test(m))return'Ese correo ya tiene una cuenta.';return'No se pudo completar el acceso. '+m;}
-async function enter(user){
-  const p=await sb.from('profiles').select('user_id,email,nombre,role,activo').eq('user_id',user.id).maybeSingle();
-  if(p.error||!p.data||!p.data.activo){await sb.auth.signOut();message('Tu correo no está autorizado o está inactivo.',true);return;}
-  const mods=await sb.from('app_modules').select('code,nombre,url,activo').eq('activo',true).order('nombre',{ascending:true});
-  if(mods.error){message('No se pudieron consultar los permisos del portal.',true);return;}
-  $('#userName').textContent=p.data.nombre||p.data.email||user.email;
-  $('#userRole').textContent=p.data.role;
-  $('#modules').innerHTML=(mods.data||[]).map(m=>{
-    const meta=INFO[m.code]||[m.code,'Módulo PRIME MX'];
-    const href=ROUTES[m.code]||'';
-    const enabled=!!href;
-    return '<article class="card '+(enabled?'':'disabled')+'"><div class="icon">'+meta[0]+'</div><h2>'+escapeHtml(m.nombre)+'</h2><p>'+escapeHtml(meta[1])+'</p><div class="foot"><span class="tag">'+escapeHtml(m.code)+'</span>'+(enabled?'<a class="open" href="'+escapeAttr(href)+'">Abrir módulo →</a>':'<span class="tag">En integración</span>')+'</div></article>';
-  }).join('')||'<article class="card"><h2>Sin módulos asignados</h2><p>Tu cuenta está activa, pero no tiene aplicaciones habilitadas.</p></article>';
-  $('#gate').classList.add('hidden');$('#app').classList.remove('hidden');
-}
-function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function escapeAttr(v){return escapeHtml(v);}
-$('#loginForm').onsubmit=async e=>{e.preventDefault();$('#loginBtn').disabled=true;message('Validando acceso…');const r=await sb.auth.signInWithPassword({email:$('#email').value.trim().toLowerCase(),password:$('#pass').value});$('#loginBtn').disabled=false;if(r.error){message(authText(r.error),true);return;}await enter(r.data.user);};
-$('#signupBtn').onclick=async()=>{const email=$('#email').value.trim().toLowerCase(),password=$('#pass').value;if(!email||password.length<8){message('Captura un correo válido y una contraseña de al menos 8 caracteres.',true);return;}$('#signupBtn').disabled=true;message('Creando acceso…');const r=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.href.split('#')[0]}});$('#signupBtn').disabled=false;if(r.error){message(authText(r.error),true);return;}message(r.data.session?'Cuenta creada. Validando…':'Cuenta creada. Revisa tu correo para confirmarla.');if(r.data.session)await enter(r.data.user);};
-$('#logout').onclick=async()=>{await sb.auth.signOut();location.reload();};
-(async()=>{const r=await sb.auth.getSession();if(r.data.session)await enter(r.data.session.user);})();
-</script>
-</body>
-</html>
+const PROJECT='ydeusddtqsstqehqhkgi',SUPABASE_URL='https://'+PROJECT+'.supabase.co',SUPABASE_KEY='sb_publishable_3g_w_Iw4bLHE76c073jlQw_YFXMlljK',AUTH_KEY='sb-'+PROJECT+'-auth-token';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:AUTH_KEY,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const ROUTES={BIOMETRICOS:'./biometricos/',HUB:'./hub/'};
+const INFO={BIOMETRICOS:['BIO','Inventario, asignaciones, entregas y comprobantes de biométricos y pinpads.'],HUB:['HUB','Zona segura para migrar recolección, evidencias y cartas de entrega.'],ADQUISICION:['ADQ','Control de adquisiciones y activos.'],AUDITORIA_IT:['AUD','Auditorías IT, universo de PDV y evidencias.'],WHATSAPP_FALLAS:['NOC','Monitoreo de fallas, folios y operación por WhatsApp.']};
+const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function message(t,e){$('#msg').textContent=t||'';$('#msg').className='msg'+(e?' err':'')}
+async function enter(user){const p=await sb.from('profiles').select('email,nombre,role,activo').eq('user_id',user.id).maybeSingle();if(p.error||!p.data||!p.data.activo){await sb.auth.signOut();message('Tu correo no está autorizado o está inactivo.',true);return}const mods=await sb.from('app_modules').select('code,nombre,activo').eq('activo',true).order('nombre');if(mods.error){message('No se pudieron consultar tus módulos.',true);return}$('#userName').textContent=p.data.nombre||p.data.email||user.email;$('#userRole').textContent=p.data.role;$('#modules').innerHTML=(mods.data||[]).map(m=>{const meta=INFO[m.code]||[m.code,'Módulo PRIME MX'],href=ROUTES[m.code]||'',on=!!href;return '<article class="card '+(on?'active':'disabled')+'"><div class="icon">'+esc(meta[0])+'</div><h2>'+esc(m.nombre)+'</h2><p>'+esc(meta[1])+'</p><div class="foot"><span class="tag">'+esc(m.code)+'</span>'+(on?'<a class="open" href="'+href+'">'+(m.code==='HUB'?'Abrir migración →':'Abrir módulo →')+'</a>':'<span class="tag">En integración</span>')+'</div></article>'}).join('');$('#gate').classList.add('hidden');$('#app').classList.remove('hidden')}
+$('#loginForm').onsubmit=async e=>{e.preventDefault();$('#loginBtn').disabled=true;message('Validando acceso…');const r=await sb.auth.signInWithPassword({email:$('#email').value.trim().toLowerCase(),password:$('#pass').value});$('#loginBtn').disabled=false;if(r.error){message('Correo o contraseña incorrectos.',true);return}await enter(r.data.user)};
+$('#signupBtn').onclick=async()=>{const email=$('#email').value.trim().toLowerCase(),password=$('#pass').value;if(!email||password.length<8){message('Captura un correo válido y una contraseña de al menos 8 caracteres.',true);return}const r=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.href.split('#')[0]}});if(r.error){message(r.error.message,true);return}message(r.data.session?'Cuenta creada. Validando…':'Cuenta creada. Revisa tu correo para confirmarla.');if(r.data.session)await enter(r.data.user)};
+$('#logout').onclick=async()=>{await sb.auth.signOut();location.reload()};
+(async()=>{const r=await sb.auth.getSession();if(r.data.session)await enter(r.data.session.user)})();
+</script></body></html>
