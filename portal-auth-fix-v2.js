@@ -1,4 +1,4 @@
-// PRIME MX Portal · Auth + render autosuficiente v4
+// PRIME MX Portal · Auth + render autosuficiente v5 · hardening cerrado
 (function(){
   'use strict';
   const PROJECT='ydeusddtqsstqehqhkgi';
@@ -13,7 +13,7 @@
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const withTimeout=(promise,ms,label)=>Promise.race([promise,new Promise((_,rej)=>setTimeout(()=>rej(new Error(label)),ms))]);
   function setMsg(text,isError){const el=$('#msg');if(!el)return;el.textContent=text||'';el.className='msg'+(isError?' err':'');}
-  function setBusy(on){const b=$('#loginBtn');if(b)b.disabled=!!on;const s=$('#signupBtn');if(s)s.disabled=!!on;}
+  function setBusy(on){const b=$('#loginBtn');if(b)b.disabled=!!on;}
   function showApp(){$('#gate')?.classList.add('hidden');$('#app')?.classList.remove('hidden');}
   if(!window.supabase?.createClient){setMsg('No se pudo cargar el motor de acceso. Recarga la página.',true);return;}
   const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:AUTH_KEY,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -46,7 +46,8 @@
   }
   function bind(){
     const form=$('#loginForm');if(form)form.onsubmit=async e=>{e.preventDefault();const email=($('#email')?.value||'').trim().toLowerCase(),password=$('#pass')?.value||'';if(!email||password.length<8){setMsg('Captura correo y contraseña válidos.',true);return;}await login(email,password);};
-    const signup=$('#signupBtn');if(signup)signup.onclick=async()=>{const email=($('#email')?.value||'').trim().toLowerCase(),password=$('#pass')?.value||'';if(!email||password.length<8){setMsg('Captura correo y contraseña de al menos 8 caracteres.',true);return;}setBusy(true);setMsg('Creando acceso…');try{const r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.href.split('#')[0]}});if(r.error)throw r.error;if(r.data?.session&&r.data?.user)await enter(r.data.user);else setMsg('Cuenta creada. Revisa tu correo para confirmarla.');}catch(err){setMsg(String(err?.message||err),true);}finally{setBusy(false);}};
+    const signup=$('#signupBtn');if(signup){signup.style.display='none';signup.disabled=true;signup.onclick=null;}
+    const msg=$('#msg');if(msg&&msg.textContent.includes('Solo correos'))msg.textContent='Acceso exclusivo para cuentas previamente autorizadas.';
     const logout=$('#logout');if(logout)logout.onclick=async()=>{try{await client.auth.signOut({scope:'local'});}catch(_e){localStorage.removeItem(AUTH_KEY);}location.href='./';};
   }
   async function boot(){bind();try{const r=await withTimeout(client.auth.getSession(),6000,'SESSION_TIMEOUT');if(r.data?.session?.user)await enter(r.data.session.user);}catch(err){console.warn('PRIME Portal boot',err);}}
