@@ -1,2 +1,0 @@
-2026-08-21 16:02 America/Mexico_City
-Homologar boton de regreso al menu de aplicativos en todos los modulos PRIME MX.
