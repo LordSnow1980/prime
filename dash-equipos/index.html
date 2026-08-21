@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>PRIME MX · Dashboard de Equipos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="./app.css?v=1">
+</head>
+<body>
+<div id="loginScreen">
+  <div class="loginbox" style="text-align:center;max-width:420px">
+    <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:25px;color:#0b4f3e;letter-spacing:-.6px">PRIME MX</div>
+    <div style="margin:8px 0 18px;font-size:11px;font-weight:800;letter-spacing:1.4px;color:#73827c">DASHBOARD DE EQUIPOS</div>
+    <p class="sub" id="portalGateMsg" style="color:#5d6a65;margin:0 auto 18px">Validando sesión del Portal PRIME MX y permiso exclusivo…</p>
+    <a href="../" style="display:inline-block;text-decoration:none;background:#16805f;color:#fff;padding:10px 16px;border-radius:9px;font-size:13px;font-weight:700">Volver al Portal</a>
+  </div>
+</div>
+
+<div id="siteContent" style="display:none;">
+<header>
+  <div class="brand">
+    <img class="logo" src="../assets/primemx-white.svg" alt="PRIME MX">
+    <div class="divider"></div>
+    <div class="titles">
+      <h1>Dashboard de equipos</h1>
+      <p>Inventario nacional y avance de migración Windows 11</p>
+    </div>
+  </div>
+  <div class="uploader">
+    <label for="fileInput">↑ Cargar archivo (.xlsx / .csv)</label>
+    <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    <span id="fileStatus">Ningún archivo cargado</span>
+    <button id="logoutBtn">Salir</button>
+  </div>
+</header>
+<div id="reportMetaBar" style="display:none; padding:8px 32px; background:var(--pmx-blue-tint); border-bottom:1px solid var(--border); font-size:12.5px; color:var(--pmx-blue-dark); text-align:center;"></div>
+<main>
+  <div id="empty">
+    <div class="big" id="emptyTitle">Buscando el último reporte guardado...</div>
+    <div id="emptyBody">Sube el Excel con la pestaña "Consolidado" (columnas Region, Tipo de chasis y Sistema Operativo) o un CSV equivalente.<br>El archivo se guarda en el backend para que cualquiera que entre vea el mismo reporte, hasta que alguien suba uno nuevo.</div>
+  </div>
+
+  <div id="app">
+    <div class="tabs">
+      <button class="tab active" data-view="equipos">Equipos PDV</button>
+      <button class="tab" data-view="migracion">Migración Windows 11</button>
+    </div>
+
+    <div id="view-equipos" class="view">
+      <div class="kpis">
+        <div class="kpi accent"><div class="n" id="kpiTotal">0</div><div class="l">Total general</div></div>
+        <div class="kpi"><div class="n" id="kpiDesktop">0</div><div class="l">Desktop</div></div>
+        <div class="kpi"><div class="n" id="kpiLaptop">0</div><div class="l">PDV con laptop</div></div>
+        <div class="kpi accent2"><div class="n" id="kpiCambaceo">0</div><div class="l">Laptop cambaceo</div></div>
+      </div>
+
+      <div class="toolbar"><h2>Por región</h2></div>
+      <div class="regions" id="regions"></div>
+
+      <div class="toolbar"><h2>Detalle por tienda / equipo</h2></div>
+      <div class="filterbar">
+        <div class="filters-left">
+          <select class="filter-select" id="filterRegion"><option value="">Región: todas</option></select>
+          <select class="filter-select" id="filterTipo"><option value="">Tipo: todos</option><option value="desktop">Desktop</option><option value="laptop">Laptop PDV</option><option value="cambaceo">Laptop cambaceo</option></select>
+          <select class="filter-select" id="filterOS"><option value="">Sistema operativo: todos</option><option value="win11">Windows 11</option><option value="win10">Windows 10</option><option value="nocomp">No compatible</option><option value="sin_dato">Sin dato</option></select>
+          <input type="text" id="search" placeholder="Buscar por tienda, región, número de serie...">
+        </div>
+        <div class="filters-right"><span id="resultCount"></span><button class="exportbtn" id="exportCsv">Exportar CSV</button></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th>Región</th><th>Tienda / PDV</th><th>Equipo</th><th>Tipo</th><th>Número de serie</th></tr></thead><tbody id="tbody"></tbody></table></div>
+    </div>
+
+    <div id="view-migracion" class="view" style="display:none;">
+      <div class="migkpis">
+        <div class="migkpi total"><div class="l">Total equipos</div><div class="n" id="migTotal">0</div><div class="s">parque total</div></div>
+        <div class="migkpi win11"><div class="l">Windows 11</div><div class="n" id="migWin11">0</div><div class="s" id="migWin11Pct">0% del total</div></div>
+        <div class="migkpi win10"><div class="l">Windows 10</div><div class="n" id="migWin10">0</div><div class="s" id="migWin10Pct">0% pendiente</div></div>
+        <div class="migkpi nocomp"><div class="l">No compatibles</div><div class="n" id="migNoComp">0</div><div class="s">equipos a reemplazar</div></div>
+        <div class="migkpi pct"><div class="l">% migrado a Win 11</div><div class="n" id="migPctMigrado">0%</div><div class="s">del parque ya migrado</div></div>
+      </div>
+      <div class="toolbar"><h2>Avance por región</h2></div>
+      <div class="migpanel"><div id="migRegions"></div></div>
+    </div>
+  </div>
+</main>
+<footer>PRIME MX · Dashboard IT · Inventario de equipos y migración Windows 11</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
+<script src="./auth.js?v=1"></script>
+<script src="./app.js?v=1"></script>
+</body>
+</html>
