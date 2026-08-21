@@ -1,0 +1,1 @@
+Punto previo documentado. Commit base de aplicación antes de cambios funcionales: 46b08b3923242ebb480a1b855b6d857fcdb0b54d
