@@ -40,9 +40,10 @@ jobs:
               if marker in text:
                   continue
               pos = text.lower().rfind('</body>')
-              if pos < 0:
-                  raise RuntimeError(f'No se encontró </body> en {path}')
-              text = text[:pos] + block + text[pos:]
+              if pos >= 0:
+                  text = text[:pos] + block + text[pos:]
+              else:
+                  text = text.rstrip() + block + '\n'
               path.write_text(text, encoding='utf-8')
               changed.append(str(path))
 
