@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - '.github/trigger-menu-nav.txt'
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: write
@@ -14,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
       - name: Agregar botón común de regreso al Portal
         shell: python
