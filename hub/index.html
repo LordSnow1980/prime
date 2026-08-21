@@ -52,7 +52,7 @@
             <div class="stage active"><div class="card-head"><div><h2 class="section-title">Selecciona la tienda</h2><p>Busca por plaza, nombre o Clave PDV.</p></div><span id="storeCount" class="count-badge"></span></div><div class="filters"><input id="storeSearch" class="inp" placeholder="Buscar tienda o Clave PDV"></div><div id="storeList" class="pick-grid"></div></div>
             <div class="stage"><div class="card-head"><div><h2 class="section-title">Selecciona el HUB</h2><p>Elige el destino correcto para la recolección.</p></div></div><div class="filters"><input id="hubSearch" class="inp" placeholder="Buscar HUB, ciudad, estado o responsable"><select id="hubRegion" class="inp"><option value="">Todas las regiones</option></select></div><div id="hubList" class="pick-grid"></div></div>
             <div class="stage"><div class="card-head"><div><h2 class="section-title">Equipos a entregar</h2><p>La serie y la evidencia son obligatorias.</p></div><button id="addEq" class="btn sm">＋ Agregar equipo</button></div><div id="eqList"></div></div>
-            <div class="stage"><div class="card-head"><div><h2 class="section-title">Revisa y confirma</h2><p>Verifica la información antes de generar el folio.</p></div></div><div id="confirm"></div></div>
+            <div class="stage"><div class="card-head"><div><h2 class="section-title">Revisa y confirma</h2><p>Verifica la información, captura quién entrega y genera el folio.</p></div></div><div id="confirm"></div></div>
             <div class="navrow"><button id="backStep" class="btn">Atrás</button><button id="nextStep" class="btn pri">Continuar</button></div>
           </div>
         </div>
@@ -68,5 +68,5 @@
 </div>
 <div id="photoModal" class="modal"><div class="modalbox"><div class="modalhead"><div><b>Evidencia fotográfica</b><span>Vista protegida</span></div><button class="btn sm" onclick="$('#photoModal').classList.remove('show')">Cerrar</button></div><img id="fullPhoto" alt="Evidencia fotográfica del equipo"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
-<script src="./app-core.js?v=2"></script><script src="./app-ui.js?v=2"></script>
+<script src="./app-core.js?v=2"></script><script src="./app-ui.js?v=2"></script><script src="./deliverer-required-v3.js?v=d0e84e1f"></script>
 </body></html>
