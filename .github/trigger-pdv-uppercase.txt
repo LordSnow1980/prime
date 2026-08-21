@@ -1,0 +1,2 @@
+2026-08-21 17:07 America/Mexico_City
+Activar homologación de PDV en mayúsculas para Adquisición.
