@@ -1,0 +1,43 @@
+name: PRIME MX Backup
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Crear manifiesto
+        shell: bash
+        run: |
+          mkdir -p _BACKUP_INFO
+          echo "PRIME MX - RESPALDO DE CODIGO" > _BACKUP_INFO/README.txt
+          echo "Generado: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> _BACKUP_INFO/README.txt
+          echo "Repositorio: $GITHUB_REPOSITORY" >> _BACKUP_INFO/README.txt
+          echo "Branch: $GITHUB_REF_NAME" >> _BACKUP_INFO/README.txt
+          echo "Commit: $GITHUB_SHA" >> _BACKUP_INFO/README.txt
+          git log -n 30 --pretty=format:'%h | %ad | %s' --date=iso > _BACKUP_INFO/ULTIMOS_COMMITS.txt
+          find . -type f -not -path './.git/*' | sort > _BACKUP_INFO/ARCHIVOS.txt
+
+      - name: Empaquetar proyecto
+        shell: bash
+        run: |
+          zip -r PRIME_MX_PROYECTO_COMPLETO.zip . -x '.git/*' 'PRIME_MX_PROYECTO_COMPLETO.zip'
+
+      - name: Subir respaldo
+        uses: actions/upload-artifact@v4
+        with:
+          name: PRIME_MX_PROYECTO_COMPLETO
+          path: PRIME_MX_PROYECTO_COMPLETO.zip
+          retention-days: 30
+          if-no-files-found: error
