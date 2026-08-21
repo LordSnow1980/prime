@@ -1,0 +1,58 @@
+name: Homologar botón Menú de aplicativos
+
+on:
+  push:
+    paths:
+      - '.github/trigger-menu-nav.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Agregar botón común de regreso al Portal
+        shell: python
+        run: |
+          from pathlib import Path
+
+          files = [
+              Path('biometricos/index.html'),
+              Path('hub/index.html'),
+              Path('auditoria/index.html'),
+              Path('adquisicion/index.html'),
+              Path('dash-equipos/index.html'),
+          ]
+
+          marker = 'data-prime-app-menu="1"'
+          block = '''\n<a data-prime-app-menu="1" href="https://lordsnow1980.github.io/prime/" aria-label="Regresar al menú de aplicativos">← Menú de aplicativos</a>\n<style data-prime-app-menu-style="1">\n[data-prime-app-menu="1"]{position:fixed;right:18px;bottom:18px;z-index:9999;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;border-radius:10px;background:#0e6b52;color:#fff!important;text-decoration:none!important;font-family:Archivo,Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:12px;font-weight:700;letter-spacing:.01em;border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 28px rgba(15,26,24,.22);transition:transform .15s ease,background .15s ease,box-shadow .15s ease}\n[data-prime-app-menu="1"]:hover{background:#0a5540;transform:translateY(-2px);box-shadow:0 14px 34px rgba(15,26,24,.28)}\n[data-prime-app-menu="1"]:focus-visible{outline:3px solid rgba(14,107,82,.24);outline-offset:3px}\n@media(max-width:700px){[data-prime-app-menu="1"]{right:12px;bottom:12px;padding:9px 12px;font-size:11px}}\n@media print{[data-prime-app-menu="1"]{display:none!important}}\n</style>\n'''
+
+          changed = []
+          for path in files:
+              text = path.read_text(encoding='utf-8')
+              if marker in text:
+                  continue
+              pos = text.lower().rfind('</body>')
+              if pos < 0:
+                  raise RuntimeError(f'No se encontró </body> en {path}')
+              text = text[:pos] + block + text[pos:]
+              path.write_text(text, encoding='utf-8')
+              changed.append(str(path))
+
+          print('Actualizados:', ', '.join(changed) if changed else 'ninguno')
+      - name: Commit y push
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git config user.name "PRIME MX Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add biometricos/index.html hub/index.html auditoria/index.html adquisicion/index.html dash-equipos/index.html
+          git commit -m "Homologa botón Menú de aplicativos en módulos"
+          git push origin HEAD:main
